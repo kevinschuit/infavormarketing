@@ -1,0 +1,59 @@
+/* The styling of this project is written according to the Block Element Modifier(BEM) method */
+
+/* --- START fonts --- */
+
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Manjari&display=swap');
+
+/* --- START fonts --- */
+
+@import './variables';
+
+/* --- START components --- */
+
+@import './components/navigation';
+@import './components/page';
+@import './components/header';
+
+/* --- END components --- */
+
+/* --- START main styling --- */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+/* --- END main styling --- */
+
+/* --- START typography --- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    font-family: 'Manjari', sans-serif;
+    padding: 0.5em 0.75em;
+    color: $blue;
+}
+
+p{
+    padding: 0.5em;
+}
+
+/* --- END typography --- */
+
+/* --- START anchors --- */
+
+a{
+    text-decoration: none;
+    color: $black;
+    &:hover,
+    &:active{
+        color: $blue;
+    }
+}
