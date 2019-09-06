@@ -1,0 +1,20 @@
+.blog{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    .header{
+        flex: 0 0 100vw;
+    }
+    &__first-item{
+        @include content;
+    }
+    &__summary{
+        max-width: $max-content-width / 2;
+        text-align: center;
+        flex-basis: 100%;
+    }
+    &__image{
+        width: 75%;
+    }
+}

@@ -1,31 +1,54 @@
 import React, { Component } from 'react';
 import BlogSummary from './BlogSummary'
-import axios from 'axios';
+import Header from './Header';
+import Loading from './common/Loading';
+import { Link } from 'react-router-dom';
+import { getPosts } from '../services/blogService';
+import { getImage } from '../services/mediaService';
+import { getUser } from '../services/userService';
 
 class BlogOverview extends Component {
     state = {
-        BlogOverview: [],
-        isLoaded: false
+        blogOverview: [],
+        isLoaded: false,
+        author: {}
     }
 
-    componentDidMount() {
-        axios.get('wordpress/wp-json/wp/v2/BlogOverview')
-            .then(res => this.setState({ BlogOverview: res.data, isLoaded: true }))
-            .catch(err => console.log(err))
+    async componentDidMount() {
+        const { data: blogOverview } = await getPosts();
+        const { featured_media, author: authorId } = blogOverview[0];
+
+        if (featured_media > 0) {
+            const imgUrl = await getImage(featured_media, "full");
+            this.setState({ imgUrl })
+        }
+
+        const { data: author } = await getUser(authorId);
+        this.setState({ blogOverview, author, isLoaded: true, });
     }
 
     render() {
-        const { BlogOverview, isLoaded } = this.state;
+        const { blogOverview, isLoaded, imgUrl, author } = this.state;
         if (isLoaded) {
             return (
-                <div>
-                    {BlogOverview.map(post => (
-                        <BlogSummary key={post.id} post={post} />
+                <div className="blog">
+                    {blogOverview.map((post, index) => (
+                        index === 0 ?
+                            <React.Fragment key={post.id}>
+                                <Header imgUrl={imgUrl} slogan={post.title.rendered} />
+                                <div className="blog__first-item">
+                                    <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+                                    <div>Auteur: {author.name}</div>
+                                    <Link to={`/blog/${post.id}`}> Lees meer </Link>
+                                </div>
+                            </React.Fragment>
+                            :
+                            <BlogSummary key={post.id} post={post} />
                     ))}
                 </div>
             );
         }
-        return <h3>Loading...</h3>
+        return <Loading />
     }
 }
 

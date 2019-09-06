@@ -5,15 +5,19 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Manjari&display=swap');
 
-/* --- START fonts --- */
+/* --- END fonts --- */
 
+@import './mixins';
 @import './variables';
+@import './components/buttons';
 
 /* --- START components --- */
 
 @import './components/navigation';
 @import './components/page';
 @import './components/header';
+@import './components/blog';
+@import './components/loading';
 
 /* --- END components --- */
 

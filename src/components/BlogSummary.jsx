@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getImage } from '../services/mediaService';
+import { getUser } from '../services/userService';
 
 class BlogItem extends Component {
     state = {
-        imgUrl: null,
-        author: '',
+        imgUrl: undefined,
+        author: {},
         isLoaded: false
     }
-    static propTypes = {
-        post: PropTypes.object.isRequired
-    }
 
-    componentDidMount() {
-        const { featured_media, author } = this.props.post
+    async componentDidMount() {
+        const { featured_media, author: authorId } = this.props.post
+
         if (featured_media > 0) {
-            axios.get(`wordpress/wp-json/wp/v2/media/${featured_media}`).then(res => {
-                console.log(res)
-                this.setState({
-                    imgUrl: res.data.media_details.sizes.full.source_url,
-                    hasImage: true
-                })
-            }).catch(err => console.log(err))
+            const imgUrl = await getImage(featured_media, "full");
+            this.setState({ imgUrl })
         }
 
-        axios.get(`wordpress/wp-json/wp/v2/users/${author}`).then(res => {
-            this.setState({
-                author: res.data.name,
-                isLoaded: true
-            })
-        }).catch(err => console.log(err))
+        const { data: author } = await getUser(authorId);
+        this.setState({ author, isLoaded: true, });
     }
 
     render() {
@@ -38,11 +27,11 @@ class BlogItem extends Component {
         const { imgUrl, author, isLoaded } = this.state
         if (isLoaded) {
             return (
-                <div>
+                <div className="blog__summary">
                     <h2>{title.rendered}</h2>
-                    {imgUrl ? <img src={imgUrl} alt={title.rendered} style={{ width: '40vw' }} /> : ''}
+                    {imgUrl ? <img className="blog__image" src={imgUrl} alt={title.rendered} /> : ''}
                     <div dangerouslySetInnerHTML={{ __html: content.rendered }} />
-                    <div>Auteur: {author}</div>
+                    <div>Auteur: {author.name}</div>
                     <Link to={`/blog/${id}`}> Lees meer </Link>
                 </div>
             )

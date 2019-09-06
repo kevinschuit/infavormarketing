@@ -49,6 +49,9 @@ class Navigation extends Component {
                             {page.title.rendered}
                         </Link>
                     ))}
+                    <Link className="navigation__link" key={'blog'} to='/blog' onClick={() => { document.getElementById('navigation-checkbox').checked = false; if (this.state.navigationActive) this.handleScrollPosition(); }}>
+                        Blog
+                    </Link>
                 </div>
             </div >
         );

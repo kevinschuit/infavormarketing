@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import axios from 'axios'
-import BlogOverview from './components/BlogOverview'
-import BlogPost from './components/BlogPost'
-import Page from './components/Page'
-import Navigation from './components/Navigaton'
+import { Switch, Route } from 'react-router-dom';
+import BlogOverview from './components/BlogOverview';
+import BlogPost from './components/BlogPost';
+import Page from './components/Page';
+import Navigation from './components/Navigaton';
+import Loading from './components/common/Loading';
 import './scss/styles.scss';
+import { getPages } from './services/pageService';
 
 class App extends Component {
   state = {
@@ -13,13 +14,9 @@ class App extends Component {
     isLoaded: false
   }
 
-  componentDidMount() {
-    axios.get(`wordpress/wp-json/wp/v2/pages/`)
-      .then(res => this.setState({
-        pages: res.data,
-        isLoaded: true
-      }))
-      .catch(err => console.log(err))
+  async componentDidMount() {
+    const { data: pages } = await getPages();
+    this.setState({ pages, isLoaded: true });
   }
 
   render() {
@@ -30,7 +27,7 @@ class App extends Component {
           <Navigation pages={this.state.pages} />
           <Switch>
             {pages.map(page => (
-              <Route key={page.id} path={`/${page.slug === 'home' ? '' : page.slug}`} component={Page} />
+              <Route key={page.id} exact path={`/${page.slug === 'home' ? '' : page.slug}`} component={Page} getImage={this.getImage} />
             ))}
             <Route exact path="/blog" component={BlogOverview} />
             <Route exact path="/blog/:id" component={BlogPost} />
@@ -38,7 +35,7 @@ class App extends Component {
         </React.Fragment>
       );
     }
-    return <h3>Loading...</h3>
+    return <Loading />
   }
 }
 

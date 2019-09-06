@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import axios from 'axios';
+import { getPage } from '../services/pageService';
+import { getImage } from '../services/mediaService';
 
 class Page extends Component {
     state = {
@@ -11,19 +12,14 @@ class Page extends Component {
     }
 
     async componentDidMount() {
-        await axios.get(`wordpress/wp-json/wp/v2/pages?slug=${this.props.location.pathname === '/' ? '/home' : this.props.location.pathname}`).then(res => {
-            console.log(res)
-            this.setState({ page: res.data[0], isLoaded: true })
-        })
-        const { featured_media } = this.state.page
+
+        const { data: page } = await getPage(`${this.props.location.pathname === '/' ? '/home' : this.props.location.pathname}`);
+        this.setState({ page: page[0], isLoaded: true });
+
+        const { featured_media } = page[0]
         if (featured_media > 0) {
-            axios.get(`wordpress/wp-json/wp/v2/media/${featured_media}`).then(res => {
-                console.log(res)
-                this.setState({
-                    imgUrl: res.data.media_details.sizes.full.source_url,
-                    hasImage: true
-                })
-            }).catch(err => console.log(err))
+            const imgUrl = await getImage(featured_media, "full");
+            this.setState({ imgUrl, hasImage: true })
         }
     }
 
@@ -33,7 +29,7 @@ class Page extends Component {
         if (isLoaded) {
             return (
                 <div className="page">
-                    {imgUrl ? <Header imgUrl={imgUrl} slogan={acf.slogan ? acf.slogan : ''} /> : ''}
+                    <Header imgUrl={imgUrl} slogan={acf.slogan ? acf.slogan : ''} />
                     <div className="page__content">
                         <h1>{title.rendered}</h1>
                         <div dangerouslySetInnerHTML={{ __html: content.rendered }} />

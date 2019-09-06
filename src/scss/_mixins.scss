@@ -1,0 +1,5 @@
+@mixin content{
+    text-align: center;
+    max-width: $max-content-width;
+    margin: auto;
+}
