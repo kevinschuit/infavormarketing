@@ -5,7 +5,6 @@ import BlogPost from './components/BlogPost';
 import Page from './components/Page';
 import Navigation from './components/Navigaton';
 import Loading from './components/common/Loading';
-import './scss/styles.scss';
 import { getPages } from './services/pageService';
 
 class App extends Component {
