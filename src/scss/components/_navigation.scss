@@ -19,10 +19,11 @@
         transition-delay: $normal;
         width: 100vw;
         height: 100vh;
-        background: $white;
+        background: $black;
         &__link{
             font-size: 2.5em;
             margin: 0.5em auto;
+            color: $white;
         }
     }
     @media (min-width: $small-device) { 

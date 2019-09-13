@@ -2,4 +2,15 @@
     text-align: center;
     max-width: $max-content-width;
     margin: auto;
+    @media (max-width: $small-device){
+        padding: 1rem;
+    }
+}
+
+@mixin fadeIn{
+    width: 100vw;
+    height: 100vh;
+    animation: fadeIn 0.5s forwards 1s;
+    position: fixed;
+    background: $black;
 }

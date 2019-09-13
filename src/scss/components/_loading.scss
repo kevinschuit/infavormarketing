@@ -1,19 +1,17 @@
 .loading-spinner{
-    font-size: 10em;
-    animation: rotate 3s linear infinite;
+    font-size: 10rem;
+    animation: rotate 1.25s linear infinite;
     position: absolute;
     z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
+    top: calc(50% - 5rem);
+    left: calc(50% - 5rem);
+    color: $blue;
 }
 
-@keyframes rotate{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform :rotate(360deg);
-    }
+.loading-background{
+    width: 100vw;
+    height: 100vh;
+    background: $black;
+    position: fixed;
+    z-index: 7;
 }

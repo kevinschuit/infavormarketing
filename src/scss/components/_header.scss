@@ -1,13 +1,20 @@
       
 .header__parallax:after{
     display: block;
-    position: relative;
-    background-image: linear-gradient(to bottom, transparent 0%, $black 100%);
-    margin-top: -500px;
-    height: 500px;
+    position: absolute;
+    animation: rollIn 1s forwards;
+    background-image: linear-gradient(to bottom, transparent, $black, $black);
+    // margin-top: -500px;
+    height: 1000px;
     width: 100%;
+    top: -100%;
     content: '';
 }
+
+.header__parallax{
+    overflow:hidden;
+}
+
 .header__slogan{
     position: absolute;
     width: 90vw;

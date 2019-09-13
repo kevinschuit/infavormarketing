@@ -5,7 +5,9 @@ import BlogPost from './components/BlogPost';
 import Page from './components/Page';
 import Navigation from './components/Navigaton';
 import Loading from './components/common/Loading';
+import FadeIn from './components/common/FadeIn'
 import { getPages } from './services/pageService';
+
 
 class App extends Component {
   state = {
@@ -23,6 +25,7 @@ class App extends Component {
     if (isLoaded) {
       return (
         <React.Fragment>
+          <FadeIn />
           <Navigation pages={this.state.pages} />
           <Switch>
             {pages.map(page => (

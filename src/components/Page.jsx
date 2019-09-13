@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet'
 import Header from './Header';
+import Loading from './common/Loading'
+import FadeIn from './common/FadeIn'
 import { getPage } from '../services/pageService';
 import { getImage } from '../services/mediaService';
+import { generateMeta } from '../services/metaService';
 
 class Page extends Component {
     state = {
@@ -24,11 +28,16 @@ class Page extends Component {
     }
 
     render() {
-        const { title, content, acf } = this.state.page
+
+        const { title, content, acf, yoast_meta } = this.state.page
         const { imgUrl, isLoaded } = this.state
         if (isLoaded) {
             return (
                 <div className="page">
+                    <Helmet>
+                        {generateMeta(yoast_meta)}
+                    </Helmet>
+                    <FadeIn />
                     <Header imgUrl={imgUrl} slogan={acf.slogan ? acf.slogan : ''} />
                     <div className="page__content">
                         <h1>{title.rendered}</h1>
@@ -38,7 +47,7 @@ class Page extends Component {
             )
 
         }
-        return null;
+        return <Loading />;
     }
 }
 

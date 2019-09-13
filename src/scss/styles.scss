@@ -7,8 +7,9 @@
 
 /* --- END fonts --- */
 
-@import './mixins';
 @import './variables';
+@import './animations';
+@import './mixins';
 @import './components/buttons';
 
 /* --- START components --- */
@@ -60,4 +61,8 @@ a{
     &:active{
         color: $blue;
     }
+}
+
+.fade-in{
+    @include fadeIn;
 }
