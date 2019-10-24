@@ -1,0 +1,38 @@
+      
+.header{
+    min-height: 5em;
+}
+
+.header__parallax:after{
+    display: block;
+    position: absolute;
+    animation: rollIn 1s forwards;
+    animation-delay: 0.7s;
+    background-image: linear-gradient(to bottom, transparent, $black, $black);
+    // margin-top: -500px;
+    height: 1000px;
+    width: 100%;
+    top: -100%;
+    content: '';
+}
+
+.header__parallax{
+    overflow:hidden;
+}
+
+.header__slogan{
+    position: absolute;
+    width: 90vw;
+    bottom:5em;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index:1;
+    max-width: $max-content-width;
+    h3{
+        text-align: center;
+        bottom: 0;
+        color: $white; 
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+}

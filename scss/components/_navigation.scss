@@ -1,0 +1,120 @@
+.navigation-wrapper{
+    max-width: $max-content-width;
+    margin: 0 auto;
+    position: relative;
+}
+
+.navigation{
+    z-index: 2;
+    top:0;
+    &__link{
+        text-transform: uppercase;
+    }
+    @media (max-width: $small-device){
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        left: -100vw;
+        transition: left $fast ease-in-out;
+        transition-delay: $normal;
+        width: 100vw;
+        height: 100vh;
+        background: $black;
+        &__link{
+            font-size: 2.5em;
+            margin: 0.5em auto;
+            color: $white;
+        }
+    }
+    @media (min-width: $small-device) { 
+        position: absolute;
+        right:0;
+        font-size: 1.5em;
+        margin-top: 1em;
+        &__link{
+            margin-right: 1rem;
+            padding: 0.25rem;
+            // background: $white;
+            // box-shadow: $button-shadow;
+        }
+    }
+}
+
+.navigation-logo{
+    width: 10em;
+    position: absolute;
+    margin: 1rem;
+    z-index: 1;
+}
+
+/* --- START small menu --- */
+
+#navigation-checkbox{
+    display:none;
+    &:checked{
+        @media (max-width: $small-device){
+            & ~ .navigation{
+                    left:0;
+            }
+        }
+        & ~ .navigation-trigger .hamburger:before{
+            transform: translateY(10px) rotate(135deg);
+        }
+        & ~ .navigation-trigger .hamburger:after{
+            transform: translateY(-10px) rotate(-135deg); 
+        }
+        & ~ .navigation-trigger .hamburger .hamburger__bar{
+            transform: scale(0);
+        }
+        & ~ .navigation-trigger .hamburger{
+            background: none;
+            box-shadow: none;
+            transition-delay: $fast;
+        }
+    }
+}
+
+.navigation-trigger{
+    cursor: pointer;
+    position: fixed;
+    z-index: 3;
+    right: 0.5rem;
+    top: 0.5rem;
+    transition: all 0.1s ease-in-out;
+    transition-delay: $slow;
+    &:hover .hamburger{
+        transition-delay: 0s;
+        &:after, 
+        &:before,
+        .hamburger__bar{
+            background-color: $blue;
+        }
+    }
+}
+
+.hamburger{
+    width: 60px;
+    height: 60px;
+    padding: 12.5px;
+    border-radius: 100%;
+    box-shadow: $button-shadow;
+    background: $white;
+    transition: all $fast ease-in-out;
+    transition-delay: $slow;
+  &:after, 
+  &:before,
+  .hamburger__bar{
+    background-color: $blue;
+    border-radius: 3px;
+    content: '';
+    display: block;
+    height: 5px;
+    margin: 5px 0;
+    transition: all $fast ease-in-out;
+  }
+  @media (min-width: $small-device) {
+      display:none;
+   }
+}
+
+/* --- END small menu --- */
